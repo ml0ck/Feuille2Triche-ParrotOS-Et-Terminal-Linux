@@ -15,8 +15,10 @@ Ce projet fournit une cheat sheet complète pour l'utilisation de commandes de s
   - Sécurisation du serveur SSH
   - Transfert de fichiers avec SCP
 
-## Aperçu
-
-Le site se compose d'une seule page HTML, stylisée avec CSS, et fournit des informations sur les commandes essentielles ainsi qu'un guide pour SSH. Il est conçu pour être clair et facile à naviguer.
-
 ### Démonstration
+
+>>Le site se compose d'une seule page HTML, stylisée avec CSS,
+>>et fournit des informations sur les commandes essentielles ainsi qu'un guide pour SSH.
+>>Il est conçu pour être clair et facile à naviguer.
+
+
