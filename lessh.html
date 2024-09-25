@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cheat Sheet - Utiliser SSH et Sécuriser votre Réseau</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        /* Styles généraux pour la page */
+        h1, h2, h3 {
+            color: #333;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        p {
+            font-size: 1.1em;
+            line-height: 1.7;
+            margin: 10px 0;
+        }
+
+        pre, code {
+            background-color: #1e2227;
+            color: #76ff03;
+            padding: 10px;
+            border-radius: 6px;
+            display: block;
+            overflow-x: auto;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 1em;
+        }
+
+        /* Container principal */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Styles pour la section SSH */
+        .section {
+            background-color: #282c34;
+            color: #ffffff;
+            padding: 30px;
+            margin: 20px 0;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .section h2 {
+            font-size: 2.4em;
+            color: #61dafb;
+            border-bottom: 2px solid #61dafb;
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+        }
+
+        .section h3 {
+            font-size: 1.8em;
+            color: #ffa726;
+            margin-bottom: 15px;
+        }
+
+        .section p {
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .section code {
+            background-color: #1e2227;
+            color: #76ff03;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 0.95em;
+        }
+
+        .section pre {
+            background-color: #1e2227;
+            color: #76ff03;
+            padding: 10px;
+            border-radius: 6px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 1em;
+        }
+
+        .section ul {
+            list-style-type: square;
+            margin-left: 20px;
+        }
+
+        .section li {
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .section {
+                padding: 15px;
+            }
+
+            .section h2 {
+                font-size: 2em;
+            }
+
+            .section h3 {
+                font-size: 1.6em;
+            }
+
+            .section pre {
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Cheat Sheet : Utilisation de SSH et Sécurisation Réseau</h1>
+
+        <!-- Section SSH -->
+        <div class="section" id="ssh-guide">
+            <h2>Guide Complet pour Utiliser SSH</h2>
+
+            <!-- Étape 1: Installation de SSH -->
+            <div class="step">
+                <h3>Étape 1 : Installer SSH</h3>
+                <p>Pour installer le serveur SSH sur votre machine Linux, utilisez la commande suivante :</p>
+                <pre><code>sudo apt update && sudo apt install openssh-server</code></pre>
+                <p>Après l'installation, vérifiez que le service SSH fonctionne :</p>
+                <pre><code>sudo systemctl status ssh</code></pre>
+            </div>
+
+            <!-- Étape 2: Connexion à une machine distante -->
+            <div class="step">
+                <h3>Étape 2 : Se connecter à une Machine Distante</h3>
+                <p>Pour se connecter à une machine distante via SSH, utilisez cette commande :</p>
+                <pre><code>ssh <em>nom_utilisateur</em>@<em>adresse_IP</em></code></pre>
+                <p>Exemple :</p>
+                <pre><code>ssh john@192.168.1.100</code></pre>
+                <p>Entrez le mot de passe pour accéder à la machine distante.</p>
+            </div>
+
+            <!-- Étape 3: Générer des clés SSH -->
+            <div class="step">
+                <h3>Étape 3 : Générer des Clés SSH pour une Connexion sans Mot de Passe</h3>
+                <p>Pour une connexion sans mot de passe, générez des clés SSH avec :</p>
+                <pre><code>ssh-keygen -t rsa -b 4096</code></pre>
+                <p>Puis, copiez votre clé publique vers la machine distante avec :</p>
+                <pre><code>ssh-copy-id <em>nom_utilisateur</em>@<em>adresse_IP</em></code></pre>
+                <p>Vous pourrez vous connecter sans entrer de mot de passe après cette étape.</p>
+            </div>
+
+            <!-- Étape 4: Sécuriser le Serveur SSH -->
+            <div class="step">
+                <h3>Étape 4 : Renforcer la Sécurité de votre Serveur SSH</h3>
+                <p>Pour sécuriser votre serveur SSH, éditez le fichier <code>/etc/ssh/sshd_config</code> :</p>
+                <ul>
+                    <li>Désactiver l'accès root : <code>PermitRootLogin no</code></li>
+                    <li>Changer le port par défaut : <code>Port 2222</code></li>
+                    <li>Désactiver l'authentification par mot de passe : <code>PasswordAuthentication no</code></li>
+                </ul>
+                <p>Redémarrez SSH après ces modifications :</p>
+                <pre><code>sudo systemctl restart ssh</code></pre>
+            </div>
+
+            <!-- Étape 5: Transfert de fichiers avec SCP -->
+            <div class="step">
+                <h3>Étape 5 : Transférer des Fichiers avec SCP</h3>
+                <p>Utilisez SCP pour transférer des fichiers via SSH :</p>
+                <pre><code>scp <em>fichier_local</em> <em>nom_utilisateur</em>@<em>adresse_IP</em>:<em>chemin_destination</em></code></pre>
+                <p>Exemple :</p>
+                <pre><code>scp fichier.txt john@192.168.1.100:/home/john/</code></pre>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

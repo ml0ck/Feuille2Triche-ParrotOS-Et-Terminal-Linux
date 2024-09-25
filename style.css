@@ -1,0 +1,248 @@
+/* Styles généraux */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #1e1e1e;
+    color: #f1f1f1;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Titres des sections */
+h1 {
+    color: #00e676;
+    font-size: 3em;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+h2 {
+    font-size: 2.2em;
+    color: #00c4cc;
+    border-bottom: 2px solid #00c4cc;
+    padding-bottom: 10px;
+    margin-bottom: 25px;
+}
+
+h3 {
+    color: #ffeb3b;
+    font-size: 1.8em;
+    margin-bottom: 15px;
+}
+
+/* Sections */
+.section {
+    background-color: #2b2b2b;
+    padding: 20px;
+    margin-bottom: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.step {
+    margin: 20px 0;
+    padding: 15px;
+    border: 1px solid #444;
+    border-radius: 8px;
+    background-color: #333;
+}
+
+.step:hover {
+    border-color: #00c4cc;
+    background-color: #3a3a3a;
+    transition: all 0.3s ease;
+}
+
+/* Liens */
+a {
+    color: #00c4cc;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Commandes et blocs de texte */
+code {
+    background-color: #2e2e2e;
+    color: #00e676;
+    padding: 2px 5px;
+    border-radius: 4px;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 0.95em;
+}
+
+pre {
+    background-color: #2e2e2e;
+    color: #00e676;
+    padding: 10px;
+    border-radius: 4px;
+    overflow-x: auto;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 0.95em;
+    margin: 10px 0;
+}
+
+/* Étapes et descriptions */
+.step p {
+    margin: 5px 0;
+}
+
+/* Accentuation des blocs de code */
+pre, code {
+    margin-top: 5px;
+}
+
+/* Mise en forme des listes */
+ul {
+    margin: 10px 0 10px 20px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    h1 {
+        font-size: 2.5em;
+    }
+
+    h2 {
+        font-size: 1.8em;
+    }
+
+    h3 {
+        font-size: 1.5em;
+    }
+
+    .section {
+        padding: 15px;
+    }
+
+    pre {
+        font-size: 0.9em;
+    }
+}
+
+
+/* Section Anonymat et Sécurité */
+.section2 {
+    background-color: #2b2b2b;
+    padding: 20px;
+    margin-bottom: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    font-size: 2.2em;
+    color: #ff5252;
+    border-bottom: 2px solid #ff5252;
+    padding-bottom: 10px;
+    margin-bottom: 25px;
+}
+
+h3 {
+    color: #ffeb3b;
+    font-size: 1.8em;
+    margin-bottom: 15px;
+}
+
+.step {
+    margin: 20px 0;
+    padding: 15px;
+    border: 1px solid #444;
+    border-radius: 8px;
+    background-color: #333;
+}
+
+.step:hover {
+    border-color: #ff5252;
+    background-color: #3a3a3a;
+    transition: all 0.3s ease;
+}
+
+code {
+    background-color: #2e2e2e;
+    color: #00e676;
+    padding: 2px 5px;
+    border-radius: 4px;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 0.95em;
+}
+
+pre {
+    background-color: #2e2e2e;
+    color: #00e676;
+    padding: 10px;
+    border-radius: 4px;
+    overflow-x: auto;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 0.95em;
+    margin: 10px 0;
+}
+
+.step p {
+    margin: 5px 0;
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    h2 {
+        font-size: 1.8em;
+    }
+
+    h3 {
+        font-size: 1.5em;
+    }
+
+    .step {
+        padding: 10px;
+    }
+
+    pre {
+        font-size: 0.9em;
+    }
+}
+
+/* Style cryptique pour le titre SSH */
+.title-container {
+    text-align: center;
+    padding: 20px;
+    background-color: #111; /* Couleur de fond sombre */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Ombre pour un effet mystique */
+}
+
+.cryptic-title {
+    font-family: 'Courier New', Courier, monospace; /* Police d'écriture type terminal */
+    font-size: 2em;
+    color: #76ff03; /* Vert lumineux pour un effet néon */
+    text-decoration: none; /* Enlever le soulignement */
+    letter-spacing: 0.1em;
+    transition: color 0.4s ease, transform 0.4s ease; /* Transition pour les effets sur le lien */
+}
+
+.cryptic-title:hover {
+    color: #ff5722; /* Changement de couleur au survol */
+    transform: scale(1.1) rotate(3deg); /* Effet de zoom et rotation au survol */
+}
+
+.cryptic-title:active {
+    color: #03a9f4; /* Changement de couleur au clic */
+    transform: scale(0.95) rotate(-3deg); /* Légère contraction au clic */
+}
